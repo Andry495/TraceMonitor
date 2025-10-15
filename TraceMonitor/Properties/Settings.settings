@@ -1,0 +1,45 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TraceMonitor.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="smtpHost" Type="System.String" Scope="User">
+      <Value Profile="(Default)">serv.ru</Value>
+    </Setting>
+    <Setting Name="smtpUserName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">user</Value>
+    </Setting>
+    <Setting Name="smtpUserPass" Type="System.String" Scope="User">
+      <Value Profile="(Default)">pass</Value>
+    </Setting>
+    <Setting Name="msgFrom" Type="System.String" Scope="User">
+      <Value Profile="(Default)">TraceMonitor@serv.ru</Value>
+    </Setting>
+    <Setting Name="msgTo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">admin@serv.ru</Value>
+    </Setting>
+    <Setting Name="msgSubject" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Смена маршрута для %HOST%</Value>
+    </Setting>
+    <Setting Name="smtpPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">25</Value>
+    </Setting>
+    <Setting Name="UseAutorisation" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DefaultHosts" Type="System.String" Scope="User">
+      <Value Profile="(Default)">www.ya.ru</Value>
+    </Setting>
+    <Setting Name="Message" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Внимание\r\n\r\n Изменился маршрут для %HOST% \r\n\r\n%CHANGE%\r\n\r\n----------\r\nTraceMonitor@serv.ru</Value>
+    </Setting>
+    <Setting Name="SendEmail" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="StartAutoCheck" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Timer" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
