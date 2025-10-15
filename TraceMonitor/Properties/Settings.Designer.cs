@@ -179,5 +179,17 @@ namespace TraceMonitor.Properties {
                 this["Timer"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowPopupNotifications {
+            get {
+                return ((bool)(this["ShowPopupNotifications"]));
+            }
+            set {
+                this["ShowPopupNotifications"] = value;
+            }
+        }
     }
 }
