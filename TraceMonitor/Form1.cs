@@ -37,6 +37,14 @@ namespace TraceMonitor
             string Host = textBox1.Text;
             bool flag = true;
 
+            // Check if we have any results to compare
+            if (listBox1.Items.Count == 0)
+            {
+                listBox4.Items.Insert(0, Timestamp() + " No tracert results to check");
+                listBox4.Update();
+                return;
+            }
+
             if (!Directory.Exists("Data"))
             {
                 Directory.CreateDirectory("Data");
@@ -227,13 +235,32 @@ namespace TraceMonitor
 
         private void check_doublecate()
         {         
-          bool flag = false;
+            // Check if listBox1 has items
+            if (listBox1.Items.Count == 0)
+            {
+                return;
+            }
+
+            bool flag = false;
           while (flag == false)
           {
               flag = true;
               int kl = listBox1.Items.Count;
+              
+              // Ensure we have at least 2 items to compare
+              if (kl < 2)
+              {
+                  break;
+              }
+              
               for (int i = 0; i < kl - 1; i++)
               {
+                  // Double-check bounds before accessing items
+                  if (i >= listBox1.Items.Count || (i + 1) >= listBox1.Items.Count)
+                  {
+                      break;
+                  }
+                  
                   string buf1 = Convert.ToString(listBox1.Items[i]);
                   string buf2 = Convert.ToString(listBox1.Items[i + 1]);
                   if (buf1 == buf2)
@@ -241,7 +268,11 @@ namespace TraceMonitor
                       flag = false;
                       listBox1.Items.RemoveAt(i + 1);
                       listBox1.Update();
-                      listBox4.Items.Insert(0, Timestamp() + " Found dublicate host - corrected "); listBox4.Update();
+                      listBox4.Items.Insert(0, Timestamp() + " Found duplicate host - corrected "); 
+                      listBox4.Update();
+                      
+                      // Break after removal to restart the loop with updated count
+                      break;
                   }
 
               }
@@ -996,8 +1027,11 @@ namespace TraceMonitor
                 listBox4.Items.Insert(0, Timestamp() + " End tracert to:" + textBox1.Text + " (" + results.Count + " hops)");
                 listBox4.Update();
                 
-                // Check for duplicates
-                check_doublecate();
+                // Check for duplicates only if we have results
+                if (listBox1.Items.Count > 0)
+                {
+                    check_doublecate();
+                }
                 
                 // Start check trace
                 listBox4.Items.Insert(0, Timestamp() + " Start check tracert to:" + textBox1.Text);
