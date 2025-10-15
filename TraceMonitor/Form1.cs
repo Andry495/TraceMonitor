@@ -71,7 +71,7 @@ namespace TraceMonitor
                     }
                 }
                 listBox4.Items.Insert(0, Timestamp() + " Read Old file Traccert Success"); listBox4.Update();
-                //-------------------------------- Собсно Проверка --------------------
+                //-------------------------------- пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ --------------------
                 if (!(listBox1.Items.Count == listBox2.Items.Count))
                 {
                     flag = false;
@@ -138,7 +138,7 @@ namespace TraceMonitor
                     if (k == 0)
                     {
                         result = Buf.Substring(i+1);
-                        if (result == "ЏаҐўлиҐ­ Ё­вҐаў « ®¦Ё¤ ­Ёп ¤«п § Їа®б .") result = "Превышен интервал ожидания";
+                        if (result == "пїЅаҐўпїЅиҐ­ пїЅпїЅпїЅаў пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.") result = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
                     }
                     k = k+1;
                 }
@@ -321,11 +321,11 @@ namespace TraceMonitor
 
         private void Send_email()
         {
-            //Адрес SMTP-сервера
+            //пїЅпїЅпїЅпїЅпїЅ SMTP-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             String smtpHost = textBox2.Text;
-            //Порт SMTP-сервера
+            //пїЅпїЅпїЅпїЅ SMTP-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             int smtpPort = Convert.ToInt32(maskedTextBox1.Text);
-            //Логин
+            //пїЅпїЅпїЅпїЅпїЅ
             String smtpUserName = "";
             if (textBox4.Text == "")
             {
@@ -335,7 +335,7 @@ namespace TraceMonitor
             {
                 smtpUserName = textBox4.Text;
             }
-            //Пароль
+            //пїЅпїЅпїЅпїЅпїЅпїЅ
             String smtpUserPass = "";
             if (textBox5.Text == "")
             {
@@ -346,11 +346,11 @@ namespace TraceMonitor
                 smtpUserPass = textBox5.Text;
             }             
 
-            //Создание подключения
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             SmtpClient client = new SmtpClient(smtpHost, smtpPort);
             client.Credentials = new NetworkCredential(smtpUserName, smtpUserPass);
  
-            //Адрес для поля "От"
+            //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ "пїЅпїЅ"
             String msgFrom = "TraceMonitor@Server.Ru";
             if (textBox3.Text == "")
             {
@@ -361,7 +361,7 @@ namespace TraceMonitor
                 msgFrom = textBox3.Text;
             } 
 
-            //Адрес для поля "Кому" (адрес получателя)
+            //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅ" (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
             String msgTo = "TraceMonitor@Server.Ru";
             if (textBox6.Text == "")
             {
@@ -372,22 +372,22 @@ namespace TraceMonitor
                 msgTo = textBox6.Text;
             } 
 
-            //Тема письма
-            String msgSubject = "Смена маршрута для %HOST%";
+            //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+            String msgSubject = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ %HOST%";
             if (textBox7.Text == "")
             {
-                msgSubject = "Смена маршрута для %HOST%";
+                msgSubject = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ %HOST%";
             }
             else
             {
                 msgSubject = textBox7.Text;
             }             
             msgSubject=ChangeHost(msgSubject);
-            //Текст письма
-            String msgBody = "Внимание\r\n\r\n Изменился маршрут для %HOST% \r\n\r\n%CHANGE%\r\n\r\n----------\r\nTraceMonitor@serv.ru";
+            //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+            String msgBody = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ\r\n\r\n пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ %HOST% \r\n\r\n%CHANGE%\r\n\r\n----------\r\nTraceMonitor@serv.ru";
             if (textBox8.Text == "")
             {
-                msgBody = "Внимание\r\n\r\n Изменился маршрут для %HOST% \r\n\r\n%CHANGE%\r\n\r\n----------\r\nTraceMonitor@serv.ru";
+                msgBody = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ\r\n\r\n пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ %HOST% \r\n\r\n%CHANGE%\r\n\r\n----------\r\nTraceMonitor@serv.ru";
             }
             else
             {
@@ -396,23 +396,23 @@ namespace TraceMonitor
             msgBody = ChangeHost(msgBody);
             msgBody = Changes(msgBody);
 
-            //Вложение для письма
-            //Если нужно больше вложений, для каждого вложения создаем свой объект Attachment с нужным путем к файлу
-            //Attachment attachData = new Attachment("D:\Тестовое вложение.zip");
-            //Создание сообщения
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+            //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Attachment пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
+            //Attachment attachData = new Attachment("D:\пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.zip");
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             //MailMessage message = new MailMessage(msgFrom, msgTo, msgSubject, msgBody);
             MailMessage message = new MailMessage(msgFrom, msgTo, msgSubject, msgBody);
-            //Крепим к сообщению подготовленное заранее вложение
+            //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             //message.Attachments.Add(attachData);
  
             try
             {
-             //Отсылаем сообщение
+             //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             client.Send(message);
             }
             catch (SmtpException ex)
             {
-            //В случае ошибки при отсылке сообщения можем увидеть, в чем проблема
+            //пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             listBox4.Items.Insert(0, "ERROR Email Send:" + ex.InnerException.Message.ToString()); listBox4.Update();
             //Console.WriteLine(ex.InnerException.Message.ToString());
             }
@@ -672,7 +672,7 @@ namespace TraceMonitor
 
         private void button4_Click(object sender, EventArgs e)
         {
-            edit_open();
+            AddNewHost();
         }
 
         private void Form1_Resize(object sender, EventArgs e)
@@ -693,12 +693,128 @@ namespace TraceMonitor
 
         private void button6_Click(object sender, EventArgs e)
         {
-            edit_open();
+            if (listBox3.SelectedIndex >= 0)
+            {
+                string currentHost = parser_param(Convert.ToString(listBox3.Items[listBox3.SelectedIndex]), 0);
+                string newHost = Microsoft.VisualBasic.Interaction.InputBox(
+                    "Edit host name or IP address:", 
+                    "Edit Host", 
+                    currentHost);
+                
+                if (!string.IsNullOrEmpty(newHost) && !string.IsNullOrWhiteSpace(newHost) && newHost != currentHost)
+                {
+                    // Check if new host already exists
+                    bool hostExists = false;
+                    for (int i = 0; i < listBox3.Items.Count; i++)
+                    {
+                        if (i != listBox3.SelectedIndex)
+                        {
+                            string existingHost = parser_param(Convert.ToString(listBox3.Items[i]), 0);
+                            if (existingHost.Equals(newHost, StringComparison.OrdinalIgnoreCase))
+                            {
+                                hostExists = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (!hostExists)
+                    {
+                        string hostEntry = newHost + ";Yes;" + newHost + ".state.cfg";
+                        listBox3.Items[listBox3.SelectedIndex] = hostEntry;
+                        SaveHostsList();
+                        listBox4.Items.Insert(0, Timestamp() + " Host edited: " + currentHost + " -> " + newHost);
+                        listBox4.Update();
+                    }
+                    else
+                    {
+                        listBox4.Items.Insert(0, Timestamp() + " Host already exists: " + newHost);
+                        listBox4.Update();
+                    }
+                }
+            }
+            else
+            {
+                listBox4.Items.Insert(0, Timestamp() + " Please select a host to edit");
+                listBox4.Update();
+            }
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
             edit_save();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (listBox3.SelectedIndex >= 0)
+            {
+                listBox3.Items.RemoveAt(listBox3.SelectedIndex);
+                SaveHostsList();
+                listBox4.Items.Insert(0, Timestamp() + " Host removed from list"); 
+                listBox4.Update();
+            }
+            else
+            {
+                listBox4.Items.Insert(0, Timestamp() + " Please select a host to remove"); 
+                listBox4.Update();
+            }
+        }
+
+        private void SaveHostsList()
+        {
+            try
+            {
+                using (StreamWriter sw = File.CreateText(@"ListHosts.cfg"))
+                {
+                    for (int i = 0; i < listBox3.Items.Count; i++)
+                    {
+                        sw.WriteLine(listBox3.Items[i]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                listBox4.Items.Insert(0, Timestamp() + " Error saving hosts list: " + ex.Message);
+                listBox4.Update();
+            }
+        }
+
+        private void AddNewHost()
+        {
+            string newHost = Microsoft.VisualBasic.Interaction.InputBox(
+                "Enter host name or IP address:", 
+                "Add New Host", 
+                "www.example.com");
+            
+            if (!string.IsNullOrEmpty(newHost) && !string.IsNullOrWhiteSpace(newHost))
+            {
+                // Check if host already exists
+                bool hostExists = false;
+                for (int i = 0; i < listBox3.Items.Count; i++)
+                {
+                    string existingHost = parser_param(Convert.ToString(listBox3.Items[i]), 0);
+                    if (existingHost.Equals(newHost, StringComparison.OrdinalIgnoreCase))
+                    {
+                        hostExists = true;
+                        break;
+                    }
+                }
+                
+                if (!hostExists)
+                {
+                    string hostEntry = newHost + ";Yes;" + newHost + ".state.cfg";
+                    listBox3.Items.Add(hostEntry);
+                    SaveHostsList();
+                    listBox4.Items.Insert(0, Timestamp() + " Host added: " + newHost);
+                    listBox4.Update();
+                }
+                else
+                {
+                    listBox4.Items.Insert(0, Timestamp() + " Host already exists: " + newHost);
+                    listBox4.Update();
+                }
+            }
         }
 
         private void timer2_Tick(object sender, EventArgs e)
