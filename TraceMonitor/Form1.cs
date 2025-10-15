@@ -120,7 +120,6 @@ namespace TraceMonitor
         {
             string Buf = lst;
             int k =0;
-            int res = 0;
             string result = "";
             int dl = Buf.Length;   
             if (dl>=2)
@@ -701,7 +700,7 @@ namespace TraceMonitor
                     "Edit Host", 
                     currentHost);
                 
-                if (!string.IsNullOrEmpty(newHost) && !string.IsNullOrWhiteSpace(newHost) && newHost != currentHost)
+                if (!string.IsNullOrEmpty(newHost) && newHost.Trim().Length > 0 && newHost != currentHost)
                 {
                     // Check if new host already exists
                     bool hostExists = false;
@@ -787,7 +786,7 @@ namespace TraceMonitor
                 "Add New Host", 
                 "www.example.com");
             
-            if (!string.IsNullOrEmpty(newHost) && !string.IsNullOrWhiteSpace(newHost))
+            if (!string.IsNullOrEmpty(newHost) && newHost.Trim().Length > 0)
             {
                 // Check if host already exists
                 bool hostExists = false;
