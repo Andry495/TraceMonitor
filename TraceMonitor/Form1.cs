@@ -1125,7 +1125,7 @@ namespace TraceMonitor
                 ModernUI.ApplyModernStyleToContainer(this);
                 
                 // Log successful styling application
-                listBox4.Items.Insert(0, Timestamp() + " Modern UI styling applied for Windows 10/11 compatibility");
+                listBox4.Items.Insert(0, Timestamp() + " Modern UI styling applied (original layout + Windows 10/11 compatibility)");
                 listBox4.Update();
             }
             catch (Exception ex)

@@ -53,15 +53,16 @@ namespace TraceMonitor
         }
 
         /// <summary>
-        /// Apply modern styling to a form
+        /// Apply modern styling to a form (Windows 10/11 compatible)
         /// </summary>
         public static void ApplyModernFormStyle(Form form)
         {
             form.BackColor = BackgroundColor;
             
-            // Apply DPI-aware font scaling using .NET Framework 4.8 features
+            // Apply DPI-aware font scaling for Windows 10/11
             float dpiScale = GetDpiScalingFactor();
-            float fontSize = Math.Max(8.0f, 9.0f * dpiScale);
+            // Use smaller scaling factor to maintain original layout proportions
+            float fontSize = Math.Max(8.0f, 8.5f * Math.Min(dpiScale, 1.25f));
             form.Font = new Font("Segoe UI", fontSize, FontStyle.Regular);
             
             // Enable double buffering for smoother rendering
@@ -82,9 +83,9 @@ namespace TraceMonitor
             button.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 100, 180);
             button.FlatAppearance.MouseDownBackColor = Color.FromArgb(0, 80, 150);
             
-            // Apply DPI-aware font scaling
+            // Apply DPI-aware font scaling (conservative for original layout)
             float dpiScale = GetDpiScalingFactor();
-            float fontSize = Math.Max(8.0f, 9.0f * dpiScale);
+            float fontSize = Math.Max(8.0f, 8.5f * Math.Min(dpiScale, 1.25f));
             button.Font = new Font("Segoe UI", fontSize, FontStyle.Regular);
             button.Cursor = Cursors.Hand;
         }
@@ -98,9 +99,9 @@ namespace TraceMonitor
             textBox.BackColor = BackgroundColor;
             textBox.ForeColor = Color.Black;
             
-            // Apply DPI-aware font scaling
+            // Apply DPI-aware font scaling (conservative for original layout)
             float dpiScale = GetDpiScalingFactor();
-            float fontSize = Math.Max(8.0f, 9.0f * dpiScale);
+            float fontSize = Math.Max(8.0f, 8.5f * Math.Min(dpiScale, 1.25f));
             textBox.Font = new Font("Segoe UI", fontSize, FontStyle.Regular);
         }
 
@@ -114,9 +115,9 @@ namespace TraceMonitor
             listBox.BorderStyle = BorderStyle.FixedSingle;
             listBox.SelectionMode = SelectionMode.One;
             
-            // Apply DPI-aware font scaling
+            // Apply DPI-aware font scaling (conservative for original layout)
             float dpiScale = GetDpiScalingFactor();
-            float fontSize = Math.Max(8.0f, 9.0f * dpiScale);
+            float fontSize = Math.Max(8.0f, 8.5f * Math.Min(dpiScale, 1.25f));
             listBox.Font = new Font("Consolas", fontSize, FontStyle.Regular);
         }
 
@@ -125,9 +126,9 @@ namespace TraceMonitor
         /// </summary>
         public static void ApplyModernTabControlStyle(TabControl tabControl)
         {
-            // Apply DPI-aware font scaling
+            // Apply DPI-aware font scaling (conservative for original layout)
             float dpiScale = GetDpiScalingFactor();
-            float fontSize = Math.Max(8.0f, 9.0f * dpiScale);
+            float fontSize = Math.Max(8.0f, 8.5f * Math.Min(dpiScale, 1.25f));
             tabControl.Font = new Font("Segoe UI", fontSize, FontStyle.Regular);
             tabControl.Appearance = TabAppearance.Normal;
         }
@@ -146,9 +147,9 @@ namespace TraceMonitor
         /// </summary>
         public static void ApplyModernLabelStyle(Label label)
         {
-            // Apply DPI-aware font scaling
+            // Apply DPI-aware font scaling (conservative for original layout)
             float dpiScale = GetDpiScalingFactor();
-            float fontSize = Math.Max(8.0f, 9.0f * dpiScale);
+            float fontSize = Math.Max(8.0f, 8.5f * Math.Min(dpiScale, 1.25f));
             label.Font = new Font("Segoe UI", fontSize, FontStyle.Regular);
             label.ForeColor = Color.Black;
         }
@@ -158,9 +159,9 @@ namespace TraceMonitor
         /// </summary>
         public static void ApplyModernCheckBoxStyle(CheckBox checkBox)
         {
-            // Apply DPI-aware font scaling
+            // Apply DPI-aware font scaling (conservative for original layout)
             float dpiScale = GetDpiScalingFactor();
-            float fontSize = Math.Max(8.0f, 9.0f * dpiScale);
+            float fontSize = Math.Max(8.0f, 8.5f * Math.Min(dpiScale, 1.25f));
             checkBox.Font = new Font("Segoe UI", fontSize, FontStyle.Regular);
             checkBox.ForeColor = Color.Black;
         }
