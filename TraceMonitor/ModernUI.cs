@@ -67,16 +67,7 @@ namespace TraceMonitor
             // Enable double buffering for smoother rendering
             SetDoubleBuffered(form);
             
-            // Enable modern visual styles for .NET Framework 4.8
-            try
-            {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-            }
-            catch
-            {
-                // Ignore if already set
-            }
+            // Modern visual styles are already enabled in Program.cs
         }
 
         /// <summary>

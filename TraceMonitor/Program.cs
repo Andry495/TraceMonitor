@@ -32,10 +32,11 @@ namespace TraceMonitor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
-            // Set high DPI mode for better scaling
+            // Set high DPI mode for better scaling (.NET Framework 4.8 compatible)
             try
             {
-                Application.SetHighDpiMode(HighDpiMode.SystemAware);
+                // Use Windows API for DPI awareness in .NET Framework 4.8
+                SetProcessDPIAware();
             }
             catch
             {
