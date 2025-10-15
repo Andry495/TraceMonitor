@@ -111,7 +111,7 @@ namespace TraceMonitor
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(394, 390);
+            this.tabControl1.Size = new System.Drawing.Size(450, 450);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -121,7 +121,7 @@ namespace TraceMonitor
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(386, 364);
+            this.tabPage1.Size = new System.Drawing.Size(442, 424);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Working Status";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -138,7 +138,7 @@ namespace TraceMonitor
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(3, 3);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(380, 326);
+            this.panel6.Size = new System.Drawing.Size(436, 386);
             this.panel6.TabIndex = 9;
             // 
             // label11
@@ -238,7 +238,7 @@ namespace TraceMonitor
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(386, 364);
+            this.tabPage2.Size = new System.Drawing.Size(442, 424);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Hosts";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -250,7 +250,7 @@ namespace TraceMonitor
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(380, 326);
+            this.panel4.Size = new System.Drawing.Size(436, 386);
             this.panel4.TabIndex = 2;
             // 
             // listBox3
@@ -323,7 +323,7 @@ namespace TraceMonitor
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(386, 364);
+            this.tabPage3.Size = new System.Drawing.Size(442, 424);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Settings";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -356,7 +356,7 @@ namespace TraceMonitor
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(380, 326);
+            this.panel2.Size = new System.Drawing.Size(436, 386);
             this.panel2.TabIndex = 10;
             // 
             // textBox9
@@ -575,7 +575,7 @@ namespace TraceMonitor
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(386, 364);
+            this.tabPage4.Size = new System.Drawing.Size(442, 424);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "About";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -591,7 +591,7 @@ namespace TraceMonitor
             this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel7.Location = new System.Drawing.Point(3, 3);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(380, 358);
+            this.panel7.Size = new System.Drawing.Size(436, 418);
             this.panel7.TabIndex = 3;
             // 
             // pictureBox1
@@ -624,7 +624,7 @@ namespace TraceMonitor
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(81, 13);
             this.label13.TabIndex = 5;
-            this.label13.Text = "(ver 1.2 Build 0)";
+            this.label13.Text = "(ver 1.3 Build 0)";
             // 
             // label14
             // 
@@ -667,10 +667,12 @@ namespace TraceMonitor
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(394, 390);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(450, 450);
             this.Controls.Add(this.tabControl1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+            this.MinimumSize = new System.Drawing.Size(450, 450);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Trace Monitor";

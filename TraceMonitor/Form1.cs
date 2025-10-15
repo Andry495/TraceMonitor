@@ -697,6 +697,9 @@ namespace TraceMonitor
 
             // Update version information dynamically
             UpdateVersionInfo();
+
+            // Apply modern UI styling for Windows 10/11
+            ApplyModernStyling();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1104,9 +1107,31 @@ namespace TraceMonitor
             catch (Exception ex)
             {
                 // Fallback to static version if there's an error
-                label13.Text = "(ver 1.2 Build 0)";
-                this.Text = "Trace Monitor v1.2.0";
+                label13.Text = "(ver 1.3 Build 0)";
+                this.Text = "Trace Monitor v1.3.0";
                 listBox4.Items.Insert(0, Timestamp() + " Error getting version info: " + ex.Message);
+                listBox4.Update();
+            }
+        }
+
+        private void ApplyModernStyling()
+        {
+            try
+            {
+                // Apply modern styling to the main form
+                ModernUI.ApplyModernFormStyle(this);
+                
+                // Apply modern styling to all controls
+                ModernUI.ApplyModernStyleToContainer(this);
+                
+                // Log successful styling application
+                listBox4.Items.Insert(0, Timestamp() + " Modern UI styling applied for Windows 10/11 compatibility");
+                listBox4.Update();
+            }
+            catch (Exception ex)
+            {
+                // Log styling error but don't break the application
+                listBox4.Items.Insert(0, Timestamp() + " Warning: Could not apply modern styling: " + ex.Message);
                 listBox4.Update();
             }
         }
