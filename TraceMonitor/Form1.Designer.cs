@@ -624,7 +624,7 @@ namespace TraceMonitor
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(81, 13);
             this.label13.TabIndex = 5;
-            this.label13.Text = "(ver 1.4 Build 0)";
+            this.label13.Text = "(ver 1.4 Build 7)";
             // 
             // label14
             // 
