@@ -55,6 +55,7 @@ namespace TraceMonitor
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -332,6 +333,7 @@ namespace TraceMonitor
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel2.Controls.Add(this.textBox9);
             this.panel2.Controls.Add(this.label9);
+            this.panel2.Controls.Add(this.checkBox4);
             this.panel2.Controls.Add(this.checkBox3);
             this.panel2.Controls.Add(this.checkBox2);
             this.panel2.Controls.Add(this.textBox8);
@@ -382,6 +384,16 @@ namespace TraceMonitor
             this.checkBox3.TabIndex = 27;
             this.checkBox3.Text = "Start Auto Check";
             this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(8, 306);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(150, 17);
+            this.checkBox4.TabIndex = 30;
+            this.checkBox4.Text = "Show Popup Notifications";
+            this.checkBox4.UseVisualStyleBackColor = true;
             // 
             // checkBox2
             // 
@@ -612,7 +624,7 @@ namespace TraceMonitor
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(87, 13);
             this.label13.TabIndex = 5;
-            this.label13.Text = "(ver 1.1 Build 12)";
+            this.label13.Text = "(ver 1.2 Build 0)";
             // 
             // label14
             // 
@@ -636,7 +648,7 @@ namespace TraceMonitor
             // notifyIcon1
             // 
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Text = "Trace Monitor - Network Route Monitoring";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
@@ -723,6 +735,7 @@ namespace TraceMonitor
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TabPage tabPage4;

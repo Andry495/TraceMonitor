@@ -105,6 +105,11 @@ namespace TraceMonitor
                     {
                         Send_email();
                     }
+                    
+                    // Show popup notification for route change
+                    string changes = Changes("Route changes detected for " + Host);
+                    ShowRouteChangeNotification(Host, changes);
+                    
                     listBox4.Items.Insert(0, Timestamp() + " We make upgrade of paths."); listBox4.Update();
                     using (StreamWriter sw = File.CreateText(@"Data\Tracert_" + Host + ".log"))
                     {
@@ -482,6 +487,7 @@ namespace TraceMonitor
             Properties.Settings.Default.Message = textBox8.Text;
             Properties.Settings.Default.SendEmail = checkBox2.Checked;
             Properties.Settings.Default.StartAutoCheck = checkBox3.Checked;
+            Properties.Settings.Default.ShowPopupNotifications = checkBox4.Checked;
             Properties.Settings.Default.Timer= Convert.ToInt32(textBox9.Text);
             timer2.Interval = Convert.ToInt32(textBox9.Text);
             Properties.Settings.Default.Save();
@@ -668,6 +674,7 @@ namespace TraceMonitor
             textBox7.Text = Properties.Settings.Default.msgSubject;
             textBox8.Text = Properties.Settings.Default.Message;
             checkBox3.Checked = Properties.Settings.Default.StartAutoCheck;
+            checkBox4.Checked = Properties.Settings.Default.ShowPopupNotifications;
             textBox9.Text = Convert.ToString(Properties.Settings.Default.Timer);
             timer2.Interval = Convert.ToInt32(textBox9.Text);
 
@@ -1048,6 +1055,23 @@ namespace TraceMonitor
             if (auto_check)
             {
                 timer2.Enabled = true;
+            }
+        }
+
+        private void ShowRouteChangeNotification(string host, string changes)
+        {
+            if (Properties.Settings.Default.ShowPopupNotifications)
+            {
+                string title = "Route Change Detected";
+                string message = string.Format("Route changed for {0}\n\n{1}", host, changes);
+                
+                notifyIcon1.BalloonTipTitle = title;
+                notifyIcon1.BalloonTipText = message;
+                notifyIcon1.BalloonTipIcon = ToolTipIcon.Warning;
+                notifyIcon1.ShowBalloonTip(5000); // Show for 5 seconds
+                
+                listBox4.Items.Insert(0, Timestamp() + " Popup notification shown for route change");
+                listBox4.Update();
             }
         }
     }
