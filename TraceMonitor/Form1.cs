@@ -10,6 +10,7 @@ using System.Threading;
 using System.Net.Mail;
 using System.IO;
 using System.Diagnostics;
+using System.Reflection;
 
 
 namespace TraceMonitor
@@ -693,6 +694,9 @@ namespace TraceMonitor
                 hosts_startup();
                 autocheck();
             }
+
+            // Update version information dynamically
+            UpdateVersionInfo();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1071,6 +1075,38 @@ namespace TraceMonitor
                 notifyIcon1.ShowBalloonTip(5000); // Show for 5 seconds
                 
                 listBox4.Items.Insert(0, Timestamp() + " Popup notification shown for route change");
+                listBox4.Update();
+            }
+        }
+
+        private void UpdateVersionInfo()
+        {
+            try
+            {
+                // Get version information from assembly
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                Version version = assembly.GetName().Version;
+                
+                // Format version string for About tab
+                string versionString = string.Format("(ver {0}.{1} Build {2})", 
+                    version.Major, version.Minor, version.Build);
+                
+                // Format title string for window title
+                string titleString = string.Format("Trace Monitor v{0}.{1}.{2}", 
+                    version.Major, version.Minor, version.Build);
+                
+                // Update the label in About tab
+                label13.Text = versionString;
+                
+                // Update the window title
+                this.Text = titleString;
+            }
+            catch (Exception ex)
+            {
+                // Fallback to static version if there's an error
+                label13.Text = "(ver 1.2 Build 0)";
+                this.Text = "Trace Monitor v1.2.0";
+                listBox4.Items.Insert(0, Timestamp() + " Error getting version info: " + ex.Message);
                 listBox4.Update();
             }
         }

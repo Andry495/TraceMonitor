@@ -54,8 +54,8 @@ namespace TraceMonitor
             this.panel2 = new System.Windows.Forms.Panel();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -361,7 +361,7 @@ namespace TraceMonitor
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(125, 298);
+            this.textBox9.Location = new System.Drawing.Point(192, 280);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(152, 20);
             this.textBox9.TabIndex = 29;
@@ -375,6 +375,16 @@ namespace TraceMonitor
             this.label9.TabIndex = 28;
             this.label9.Text = "Timer Sec";
             // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(8, 306);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(148, 17);
+            this.checkBox4.TabIndex = 30;
+            this.checkBox4.Text = "Show Popup Notifications";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
@@ -384,16 +394,6 @@ namespace TraceMonitor
             this.checkBox3.TabIndex = 27;
             this.checkBox3.Text = "Start Auto Check";
             this.checkBox3.UseVisualStyleBackColor = true;
-            // 
-            // checkBox4
-            // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(8, 306);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(150, 17);
-            this.checkBox4.TabIndex = 30;
-            this.checkBox4.Text = "Show Popup Notifications";
-            this.checkBox4.UseVisualStyleBackColor = true;
             // 
             // checkBox2
             // 
@@ -622,7 +622,7 @@ namespace TraceMonitor
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(279, 149);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(87, 13);
+            this.label13.Size = new System.Drawing.Size(81, 13);
             this.label13.TabIndex = 5;
             this.label13.Text = "(ver 1.2 Build 0)";
             // 
