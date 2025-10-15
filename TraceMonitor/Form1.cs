@@ -1107,8 +1107,8 @@ namespace TraceMonitor
             catch (Exception ex)
             {
                 // Fallback to static version if there's an error
-                label13.Text = "(ver 1.3 Build 0)";
-                this.Text = "Trace Monitor v1.3.0";
+                label13.Text = "(ver 1.4 Build 0)";
+                this.Text = "Trace Monitor v1.4.0";
                 listBox4.Items.Insert(0, Timestamp() + " Error getting version info: " + ex.Message);
                 listBox4.Update();
             }

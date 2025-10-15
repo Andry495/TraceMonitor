@@ -1,6 +1,8 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using System.ComponentModel;
 
 namespace TraceMonitor
 {
@@ -9,6 +11,18 @@ namespace TraceMonitor
     /// </summary>
     public static class ModernUI
     {
+        // Windows API declarations for DPI support
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetDC(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+        [DllImport("gdi32.dll")]
+        private static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
+
+        private const int LOGPIXELSX = 88;
+        private const int LOGPIXELSY = 90;
         // Modern color scheme
         public static readonly Color PrimaryColor = Color.FromArgb(0, 120, 215); // Windows 10 blue
         public static readonly Color SecondaryColor = Color.FromArgb(240, 240, 240); // Light gray
@@ -17,15 +31,52 @@ namespace TraceMonitor
         public static readonly Color BorderColor = Color.FromArgb(200, 200, 200); // Light border
 
         /// <summary>
+        /// Get DPI scaling factor for the current display
+        /// </summary>
+        public static float GetDpiScalingFactor()
+        {
+            try
+            {
+                IntPtr hdc = GetDC(IntPtr.Zero);
+                if (hdc != IntPtr.Zero)
+                {
+                    int dpiX = GetDeviceCaps(hdc, LOGPIXELSX);
+                    ReleaseDC(IntPtr.Zero, hdc);
+                    return dpiX / 96.0f; // 96 DPI is standard
+                }
+            }
+            catch
+            {
+                // Fallback to 1.0 if DPI detection fails
+            }
+            return 1.0f;
+        }
+
+        /// <summary>
         /// Apply modern styling to a form
         /// </summary>
         public static void ApplyModernFormStyle(Form form)
         {
             form.BackColor = BackgroundColor;
-            form.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            
+            // Apply DPI-aware font scaling using .NET Framework 4.8 features
+            float dpiScale = GetDpiScalingFactor();
+            float fontSize = Math.Max(8.0f, 9.0f * dpiScale);
+            form.Font = new Font("Segoe UI", fontSize, FontStyle.Regular);
             
             // Enable double buffering for smoother rendering
             SetDoubleBuffered(form);
+            
+            // Enable modern visual styles for .NET Framework 4.8
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+            }
+            catch
+            {
+                // Ignore if already set
+            }
         }
 
         /// <summary>
@@ -39,7 +90,11 @@ namespace TraceMonitor
             button.FlatAppearance.BorderSize = 0;
             button.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 100, 180);
             button.FlatAppearance.MouseDownBackColor = Color.FromArgb(0, 80, 150);
-            button.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            
+            // Apply DPI-aware font scaling
+            float dpiScale = GetDpiScalingFactor();
+            float fontSize = Math.Max(8.0f, 9.0f * dpiScale);
+            button.Font = new Font("Segoe UI", fontSize, FontStyle.Regular);
             button.Cursor = Cursors.Hand;
         }
 
@@ -51,7 +106,11 @@ namespace TraceMonitor
             textBox.BorderStyle = BorderStyle.FixedSingle;
             textBox.BackColor = BackgroundColor;
             textBox.ForeColor = Color.Black;
-            textBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            
+            // Apply DPI-aware font scaling
+            float dpiScale = GetDpiScalingFactor();
+            float fontSize = Math.Max(8.0f, 9.0f * dpiScale);
+            textBox.Font = new Font("Segoe UI", fontSize, FontStyle.Regular);
         }
 
         /// <summary>
@@ -62,8 +121,12 @@ namespace TraceMonitor
             listBox.BackColor = BackgroundColor;
             listBox.ForeColor = Color.Black;
             listBox.BorderStyle = BorderStyle.FixedSingle;
-            listBox.Font = new Font("Consolas", 9F, FontStyle.Regular);
             listBox.SelectionMode = SelectionMode.One;
+            
+            // Apply DPI-aware font scaling
+            float dpiScale = GetDpiScalingFactor();
+            float fontSize = Math.Max(8.0f, 9.0f * dpiScale);
+            listBox.Font = new Font("Consolas", fontSize, FontStyle.Regular);
         }
 
         /// <summary>
@@ -71,7 +134,10 @@ namespace TraceMonitor
         /// </summary>
         public static void ApplyModernTabControlStyle(TabControl tabControl)
         {
-            tabControl.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            // Apply DPI-aware font scaling
+            float dpiScale = GetDpiScalingFactor();
+            float fontSize = Math.Max(8.0f, 9.0f * dpiScale);
+            tabControl.Font = new Font("Segoe UI", fontSize, FontStyle.Regular);
             tabControl.Appearance = TabAppearance.Normal;
         }
 
@@ -89,7 +155,10 @@ namespace TraceMonitor
         /// </summary>
         public static void ApplyModernLabelStyle(Label label)
         {
-            label.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            // Apply DPI-aware font scaling
+            float dpiScale = GetDpiScalingFactor();
+            float fontSize = Math.Max(8.0f, 9.0f * dpiScale);
+            label.Font = new Font("Segoe UI", fontSize, FontStyle.Regular);
             label.ForeColor = Color.Black;
         }
 
@@ -98,7 +167,10 @@ namespace TraceMonitor
         /// </summary>
         public static void ApplyModernCheckBoxStyle(CheckBox checkBox)
         {
-            checkBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            // Apply DPI-aware font scaling
+            float dpiScale = GetDpiScalingFactor();
+            float fontSize = Math.Max(8.0f, 9.0f * dpiScale);
+            checkBox.Font = new Font("Segoe UI", fontSize, FontStyle.Regular);
             checkBox.ForeColor = Color.Black;
         }
 
