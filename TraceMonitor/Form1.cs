@@ -259,17 +259,23 @@ namespace TraceMonitor
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (backgroundWorker1.IsBusy)
+            {
+                listBox4.Items.Insert(0, Timestamp() + " Tracert is already running, please wait...");
+                listBox4.Update();
+                return;
+            }
+
             ClearOldLogs();
             textBox1.Enabled = false;
+            button1.Enabled = false;
+            button1.Text = "Running...";
             listBox1.Items.Clear();
-            listBox4.Items.Insert(0, Timestamp()+" Start tracert to:" + textBox1.Text); listBox4.Update();            
-            //IcmpRequest(new ToolsCommandRequest(textBox1.Text, "Hello", CommandType.tracert, 4, 32, 1000, 1000, 128));
-            tracerr(textBox1.Text);
-            listBox4.Items.Insert(0, Timestamp()+" End tracert to:" + textBox1.Text); listBox4.Update();            
-            listBox4.Items.Insert(0, Timestamp()+" Start check tracert to:" + textBox1.Text); listBox4.Update();            
-            check_trace();
-            listBox4.Items.Insert(0, Timestamp()+" End check tracert to:" + textBox1.Text); listBox4.Update();
-            textBox1.Enabled = true;
+            listBox4.Items.Insert(0, Timestamp()+" Start tracert to:" + textBox1.Text); 
+            listBox4.Update();
+            
+            // Start background worker for tracert
+            backgroundWorker1.RunWorkerAsync(textBox1.Text);
         }
 
         private string ChangeHost(string lst)
@@ -530,12 +536,19 @@ namespace TraceMonitor
 
         private void autocheck()
         {
-
             if (auto_check)
             {
                 listBox4.Items.Insert(0, Timestamp() + " Stop auto check tracert to host"); listBox4.Update();
                 button2.Text = "Start auto";
                 timer2.Enabled = false;
+                
+                // Cancel current tracert if running
+                if (backgroundWorker1.IsBusy)
+                {
+                    backgroundWorker1.CancelAsync();
+                    listBox4.Items.Insert(0, Timestamp() + " Cancelling current tracert..."); listBox4.Update();
+                }
+                
                 EnableSettings();
                 textBox1.Enabled = true;
                 button1.Enabled = true;
@@ -818,23 +831,190 @@ namespace TraceMonitor
 
         private void timer2_Tick(object sender, EventArgs e)
         {
+            if (backgroundWorker1.IsBusy)
+            {
+                // Skip this tick if tracert is still running
+                return;
+            }
+
             ClearOldLogs();
             timer2.Enabled = false;
             textBox1.Text = parser_param(Convert.ToString(listBox3.Items[hc]), 0);
             listBox1.Items.Clear();
-            listBox4.Items.Insert(0, Timestamp() + " Start tracert to:" + textBox1.Text); listBox4.Update();
-            tracerr(textBox1.Text);
-            listBox4.Items.Insert(0, Timestamp() + " End tracert to:" + textBox1.Text); listBox4.Update();
-            check_doublecate();
-            listBox4.Items.Insert(0, Timestamp() + " Start check tracert to:" + textBox1.Text); listBox4.Update();
-            check_trace();
-            listBox4.Items.Insert(0, Timestamp() + " End check tracert to:" + textBox1.Text); listBox4.Update();
-            timer2.Enabled = true;
+            listBox4.Items.Insert(0, Timestamp() + " Start auto tracert to:" + textBox1.Text); 
+            listBox4.Update();
+            
+            // Start background worker for auto tracert
+            backgroundWorker1.RunWorkerAsync(textBox1.Text);
+            
             hc++;
             if (hc > hc_kl - 1)
             {
                 hc = 0;
             }
-        } 
+        }
+
+        // BackgroundWorker event handlers for async tracert
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string host = (string)e.Argument;
+            List<string> routeResults = new List<string>();
+            
+            try
+            {
+                string command = "tracert";
+                string param = " -d " + host;
+                string buffer = "";
+                char ch;
+                bool n, r;
+                n = false;
+                r = false;
+                int k = 0;
+                
+                if (command.Trim().Length > 0)
+                {
+                    if (!command.EndsWith(".exe"))
+                        command = command + ".exe";
+                        
+                    ProcessStartInfo inf = new ProcessStartInfo(command, param);
+                    inf.CreateNoWindow = true;
+                    inf.UseShellExecute = false;
+                    inf.RedirectStandardOutput = true;
+                    inf.RedirectStandardInput = true;
+                    
+                    Process prc = new Process();
+                    prc.StartInfo = inf;
+                    prc.Start();
+                    
+                    int character;
+                    while (true)
+                    {
+                        // Check for cancellation
+                        if (backgroundWorker1.CancellationPending)
+                        {
+                            e.Cancel = true;
+                            prc.Kill();
+                            return;
+                        }
+                        
+                        character = prc.StandardOutput.Read();
+                        if (character == -1)
+                            break;
+
+                        ch = (char)character;
+                        if (character == 13)
+                        {
+                            r = true;
+                        }
+                        else if (character == 10)
+                        {
+                            n = true;
+                        }
+
+                        if (r && n)
+                        {                   
+                            n = false;
+                            r = false;
+                            k = k + 1;
+                            if (k > 4)
+                            {
+                                string result = parse_tracer(buffer);
+                                if (!string.IsNullOrEmpty(result))
+                                {
+                                    routeResults.Add(result);
+                                    // Report progress
+                                    backgroundWorker1.ReportProgress(routeResults.Count, result);
+                                }
+                            }
+                            buffer = "";
+                        }
+                        if (!(character == 13) && !(character == 10))
+                        {
+                            buffer = buffer + ch;
+                        }
+                    }
+                    
+                    prc.WaitForExit();
+                }
+                
+                // Remove last 2 items (usually empty or summary)
+                if (routeResults.Count >= 2)
+                {
+                    routeResults.RemoveAt(routeResults.Count - 1);
+                    routeResults.RemoveAt(routeResults.Count - 1);
+                }
+                
+                e.Result = routeResults;
+            }
+            catch (Exception ex)
+            {
+                e.Result = new List<string>();
+                backgroundWorker1.ReportProgress(-1, "Error: " + ex.Message);
+            }
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            if (e.ProgressPercentage == -1)
+            {
+                // Error message
+                listBox4.Items.Insert(0, Timestamp() + " " + e.UserState.ToString());
+                listBox4.Update();
+            }
+            else
+            {
+                // Add route hop to list
+                listBox1.Items.Add(e.UserState.ToString());
+                listBox1.Update();
+                
+                // Update progress in log
+                listBox4.Items.Insert(0, Timestamp() + " Hop " + e.ProgressPercentage + ": " + e.UserState.ToString());
+                listBox4.Update();
+            }
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            // Restore UI state
+            textBox1.Enabled = true;
+            button1.Enabled = true;
+            button1.Text = "Start manual.";
+            
+            if (e.Cancelled)
+            {
+                listBox4.Items.Insert(0, Timestamp() + " Tracert cancelled by user");
+                listBox4.Update();
+            }
+            else if (e.Error != null)
+            {
+                listBox4.Items.Insert(0, Timestamp() + " Tracert error: " + e.Error.Message);
+                listBox4.Update();
+            }
+            else
+            {
+                List<string> results = (List<string>)e.Result;
+                listBox4.Items.Insert(0, Timestamp() + " End tracert to:" + textBox1.Text + " (" + results.Count + " hops)");
+                listBox4.Update();
+                
+                // Check for duplicates
+                check_doublecate();
+                
+                // Start check trace
+                listBox4.Items.Insert(0, Timestamp() + " Start check tracert to:" + textBox1.Text);
+                listBox4.Update();
+                
+                // Run check_trace in UI thread (it's fast)
+                check_trace();
+                
+                listBox4.Items.Insert(0, Timestamp() + " End check tracert to:" + textBox1.Text);
+                listBox4.Update();
+            }
+            
+            // Restart timer if auto mode is enabled
+            if (auto_check)
+            {
+                timer2.Enabled = true;
+            }
+        }
     }
 }
