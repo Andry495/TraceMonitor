@@ -1127,11 +1127,61 @@ namespace TraceMonitor
                 // Log successful styling application
                 listBox4.Items.Insert(0, Timestamp() + " Modern UI styling applied (original layout + Windows 10/11 compatibility)");
                 listBox4.Update();
+                
+                // Log element visibility check
+                LogElementVisibility();
             }
             catch (Exception ex)
             {
                 // Log styling error but don't break the application
                 listBox4.Items.Insert(0, Timestamp() + " Warning: Could not apply modern styling: " + ex.Message);
+                listBox4.Update();
+            }
+        }
+
+        private void LogElementVisibility()
+        {
+            try
+            {
+                // Check if all main elements are visible and properly sized
+                string visibilityReport = "Element visibility check: ";
+                
+                if (textBox1 != null && textBox1.Visible)
+                    visibilityReport += "TextBox1:OK ";
+                else
+                    visibilityReport += "TextBox1:MISSING ";
+                
+                if (listBox1 != null && listBox1.Visible)
+                    visibilityReport += "ListBox1:OK ";
+                else
+                    visibilityReport += "ListBox1:MISSING ";
+                
+                if (listBox2 != null && listBox2.Visible)
+                    visibilityReport += "ListBox2:OK ";
+                else
+                    visibilityReport += "ListBox2:MISSING ";
+                
+                if (listBox4 != null && listBox4.Visible)
+                    visibilityReport += "ListBox4:OK ";
+                else
+                    visibilityReport += "ListBox4:MISSING ";
+                
+                if (button1 != null && button1.Visible)
+                    visibilityReport += "Button1:OK ";
+                else
+                    visibilityReport += "Button1:MISSING ";
+                
+                if (button2 != null && button2.Visible)
+                    visibilityReport += "Button2:OK ";
+                else
+                    visibilityReport += "Button2:MISSING ";
+                
+                listBox4.Items.Insert(0, Timestamp() + " " + visibilityReport);
+                listBox4.Update();
+            }
+            catch (Exception ex)
+            {
+                listBox4.Items.Insert(0, Timestamp() + " Error checking element visibility: " + ex.Message);
                 listBox4.Update();
             }
         }
