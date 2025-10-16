@@ -12,7 +12,7 @@
 - Добавлена настройка `StandardOutputEncoding = System.Text.Encoding.GetEncoding("cp866")` для процесса tracert
 - Улучшена функция `parse_tracer` для корректного отображения сообщений:
   - "Request timed out"
-  - "Destination host unreachable"
+  - "Destination host unreachable" 
   - "Tracing route"
 
 ## 🔧 Технические улучшения
