@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,7 +19,7 @@ namespace TraceMonitor
     {
         bool auto_check;
         int hc;
-        int hc_kl;  
+        int hc_kl;
 
         public Form1()
         {
@@ -54,7 +54,7 @@ namespace TraceMonitor
             if (!File.Exists(@"Data\Tracert_" + Host + ".log"))
             {
                 listBox4.Items.Insert(0, Timestamp() + " Old file Traccert Not Found"); listBox4.Update();
-                listBox4.Items.Insert(0, Timestamp() + " Create file"); listBox4.Update();                
+                listBox4.Items.Insert(0, Timestamp() + " Create file"); listBox4.Update();
                 using (StreamWriter sw = File.CreateText(@"Data\Tracert_" + Host + ".log"))
                 {
                     for (int i = 0; i <= listBox1.Items.Count-1; i++)
@@ -62,8 +62,8 @@ namespace TraceMonitor
                         sw.WriteLine(listBox1.Items[i]);
                         listBox1.Update();
                     }
-                    
-                }               
+
+                }
             }
             else
             {
@@ -106,11 +106,11 @@ namespace TraceMonitor
                     {
                         Send_email();
                     }
-                    
+
                     // Show popup notification for route change
                     string changes = Changes("Route changes detected for " + Host);
                     ShowRouteChangeNotification(Host, changes);
-                    
+
                     listBox4.Items.Insert(0, Timestamp() + " We make upgrade of paths."); listBox4.Update();
                     using (StreamWriter sw = File.CreateText(@"Data\Tracert_" + Host + ".log"))
                     {
@@ -135,7 +135,7 @@ namespace TraceMonitor
             string Buf = lst;
             int k =0;
             string result = "";
-            int dl = Buf.Length;   
+            int dl = Buf.Length;
             if (dl>=2)
             {
             for (int i = dl-1; i >= 1; i--)
@@ -151,7 +151,15 @@ namespace TraceMonitor
                     if (k == 0)
                     {
                         result = Buf.Substring(i+1);
-                        if (result == "�ॢ�襭 ���ࢠ� �������� ��� �����.") result = "�������� �������� ��������";
+                                                // Fix encoding issues - replace corrupted text with proper message
+                        if (result.Contains("Request timed out") || result.Contains("  "))
+                        {
+                            result = "Request timed out";
+                        }
+                        else if (result.Contains("Destination host unreachable") || result.Contains("  "))
+                        {
+                            result = "Destination host unreachable";
+                        }
                     }
                     k = k+1;
                 }
@@ -182,6 +190,7 @@ namespace TraceMonitor
                     inf.UseShellExecute = false;
                     inf.RedirectStandardOutput = true;
                     inf.RedirectStandardInput = true;
+                    inf.StandardOutputEncoding = System.Text.Encoding.GetEncoding("cp866");
                     Process prc = new Process();
                     prc.StartInfo = inf;
                     prc.Start();
@@ -204,14 +213,14 @@ namespace TraceMonitor
                             }
 
                         if (r && n)
-                        {                   
+                        {
                             n = false;
                             r = false;
                             k = k + 1;
                             if (k > 4)
                             {
                                 listBox1.Items.Add(parse_tracer(buffer));
-                                listBox1.Update();         
+                                listBox1.Update();
                             }
                             buffer = "";
                         }
@@ -219,7 +228,7 @@ namespace TraceMonitor
                         {
                             buffer = buffer + ch;
                         }
-                                           
+
                         //System.Console.Out.Write((char)character);
                     }
                 }
@@ -240,7 +249,7 @@ namespace TraceMonitor
         }
 
         private void check_doublecate()
-        {         
+        {
             // Check if listBox1 has items
             if (listBox1.Items.Count == 0)
             {
@@ -252,13 +261,13 @@ namespace TraceMonitor
           {
               flag = true;
               int kl = listBox1.Items.Count;
-              
+
               // Ensure we have at least 2 items to compare
               if (kl < 2)
               {
                   break;
               }
-              
+
               for (int i = 0; i < kl - 1; i++)
               {
                   // Double-check bounds before accessing items
@@ -266,7 +275,7 @@ namespace TraceMonitor
                   {
                       break;
                   }
-                  
+
                   string buf1 = Convert.ToString(listBox1.Items[i]);
                   string buf2 = Convert.ToString(listBox1.Items[i + 1]);
                   if (buf1 == buf2)
@@ -274,16 +283,16 @@ namespace TraceMonitor
                       flag = false;
                       listBox1.Items.RemoveAt(i + 1);
                       listBox1.Update();
-                      listBox4.Items.Insert(0, Timestamp() + " Found duplicate host - corrected "); 
+                      listBox4.Items.Insert(0, Timestamp() + " Found duplicate host - corrected ");
                       listBox4.Update();
-                      
+
                       // Break after removal to restart the loop with updated count
                       break;
                   }
 
               }
           }
-          
+
 
 
         }
@@ -308,9 +317,9 @@ namespace TraceMonitor
             button1.Enabled = false;
             button1.Text = "Running...";
             listBox1.Items.Clear();
-            listBox4.Items.Insert(0, Timestamp()+" Start tracert to:" + textBox1.Text); 
+            listBox4.Items.Insert(0, Timestamp()+" Start tracert to:" + textBox1.Text);
             listBox4.Update();
-            
+
             // Start background worker for tracert
             backgroundWorker1.RunWorkerAsync(textBox1.Text);
         }
@@ -386,12 +395,12 @@ namespace TraceMonitor
             else
             {
                 smtpUserPass = textBox5.Text;
-            }             
+            }
 
             //�������� �����������
             SmtpClient client = new SmtpClient(smtpHost, smtpPort);
             client.Credentials = new NetworkCredential(smtpUserName, smtpUserPass);
- 
+
             //����� ��� ���� "��"
             String msgFrom = "TraceMonitor@Server.Ru";
             if (textBox3.Text == "")
@@ -401,7 +410,7 @@ namespace TraceMonitor
             else
             {
                 msgFrom = textBox3.Text;
-            } 
+            }
 
             //����� ��� ���� "����" (����� ����������)
             String msgTo = "TraceMonitor@Server.Ru";
@@ -412,7 +421,7 @@ namespace TraceMonitor
             else
             {
                 msgTo = textBox6.Text;
-            } 
+            }
 
             //���� ������
             String msgSubject = "����� �������� ��� %HOST%";
@@ -423,7 +432,7 @@ namespace TraceMonitor
             else
             {
                 msgSubject = textBox7.Text;
-            }             
+            }
             msgSubject=ChangeHost(msgSubject);
             //����� ������
             String msgBody = "��������\r\n\r\n ��������� ������� ��� %HOST% \r\n\r\n%CHANGE%\r\n\r\n----------\r\nTraceMonitor@serv.ru";
@@ -446,7 +455,7 @@ namespace TraceMonitor
             MailMessage message = new MailMessage(msgFrom, msgTo, msgSubject, msgBody);
             //������ � ��������� �������������� ������� ��������
             //message.Attachments.Add(attachData);
- 
+
             try
             {
              //�������� ���������
@@ -516,7 +525,7 @@ namespace TraceMonitor
             {
                 textBox4.Enabled = false;
                 textBox5.Enabled = false;
-            }                                
+            }
         }
 
         private void DisableSettings()
@@ -579,14 +588,14 @@ namespace TraceMonitor
                 listBox4.Items.Insert(0, Timestamp() + " Stop auto check tracert to host"); listBox4.Update();
                 button2.Text = "Start auto";
                 timer2.Enabled = false;
-                
+
                 // Cancel current tracert if running
                 if (backgroundWorker1.IsBusy)
                 {
                     backgroundWorker1.CancelAsync();
                     listBox4.Items.Insert(0, Timestamp() + " Cancelling current tracert..."); listBox4.Update();
                 }
-                
+
                 EnableSettings();
                 textBox1.Enabled = true;
                 button1.Enabled = true;
@@ -608,7 +617,7 @@ namespace TraceMonitor
                 checkBox3.Enabled = false;
                 button3.Enabled = false;
                 auto_check = true;
-            }                        
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -745,7 +754,7 @@ namespace TraceMonitor
         {
                 Show();
                 WindowState = FormWindowState.Normal;
-           
+
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -754,10 +763,10 @@ namespace TraceMonitor
             {
                 string currentHost = parser_param(Convert.ToString(listBox3.Items[listBox3.SelectedIndex]), 0);
                 string newHost = Microsoft.VisualBasic.Interaction.InputBox(
-                    "Edit host name or IP address:", 
-                    "Edit Host", 
+                    "Edit host name or IP address:",
+                    "Edit Host",
                     currentHost);
-                
+
                 if (!string.IsNullOrEmpty(newHost) && newHost.Trim().Length > 0 && newHost != currentHost)
                 {
                     // Check if new host already exists
@@ -774,7 +783,7 @@ namespace TraceMonitor
                             }
                         }
                     }
-                    
+
                     if (!hostExists)
                     {
                         string hostEntry = newHost + ";Yes;" + newHost + ".state.cfg";
@@ -808,12 +817,12 @@ namespace TraceMonitor
             {
                 listBox3.Items.RemoveAt(listBox3.SelectedIndex);
                 SaveHostsList();
-                listBox4.Items.Insert(0, Timestamp() + " Host removed from list"); 
+                listBox4.Items.Insert(0, Timestamp() + " Host removed from list");
                 listBox4.Update();
             }
             else
             {
-                listBox4.Items.Insert(0, Timestamp() + " Please select a host to remove"); 
+                listBox4.Items.Insert(0, Timestamp() + " Please select a host to remove");
                 listBox4.Update();
             }
         }
@@ -840,10 +849,10 @@ namespace TraceMonitor
         private void AddNewHost()
         {
             string newHost = Microsoft.VisualBasic.Interaction.InputBox(
-                "Enter host name or IP address:", 
-                "Add New Host", 
+                "Enter host name or IP address:",
+                "Add New Host",
                 "www.example.com");
-            
+
             if (!string.IsNullOrEmpty(newHost) && newHost.Trim().Length > 0)
             {
                 // Check if host already exists
@@ -857,7 +866,7 @@ namespace TraceMonitor
                         break;
                     }
                 }
-                
+
                 if (!hostExists)
                 {
                     string hostEntry = newHost + ";Yes;" + newHost + ".state.cfg";
@@ -886,12 +895,12 @@ namespace TraceMonitor
             timer2.Enabled = false;
             textBox1.Text = parser_param(Convert.ToString(listBox3.Items[hc]), 0);
             listBox1.Items.Clear();
-            listBox4.Items.Insert(0, Timestamp() + " Start auto tracert to:" + textBox1.Text); 
+            listBox4.Items.Insert(0, Timestamp() + " Start auto tracert to:" + textBox1.Text);
             listBox4.Update();
-            
+
             // Start background worker for auto tracert
             backgroundWorker1.RunWorkerAsync(textBox1.Text);
-            
+
             hc++;
             if (hc > hc_kl - 1)
             {
@@ -904,7 +913,7 @@ namespace TraceMonitor
         {
             string host = (string)e.Argument;
             List<string> routeResults = new List<string>();
-            
+
             try
             {
                 string command = "tracert";
@@ -915,22 +924,23 @@ namespace TraceMonitor
                 n = false;
                 r = false;
                 int k = 0;
-                
+
                 if (command.Trim().Length > 0)
                 {
                     if (!command.EndsWith(".exe"))
                         command = command + ".exe";
-                        
+
                     ProcessStartInfo inf = new ProcessStartInfo(command, param);
                     inf.CreateNoWindow = true;
                     inf.UseShellExecute = false;
                     inf.RedirectStandardOutput = true;
                     inf.RedirectStandardInput = true;
-                    
+                    inf.StandardOutputEncoding = System.Text.Encoding.GetEncoding("cp866");
+
                     Process prc = new Process();
                     prc.StartInfo = inf;
                     prc.Start();
-                    
+
                     int character;
                     while (true)
                     {
@@ -941,7 +951,7 @@ namespace TraceMonitor
                             prc.Kill();
                             return;
                         }
-                        
+
                         character = prc.StandardOutput.Read();
                         if (character == -1)
                             break;
@@ -957,7 +967,7 @@ namespace TraceMonitor
                         }
 
                         if (r && n)
-                        {                   
+                        {
                             n = false;
                             r = false;
                             k = k + 1;
@@ -978,17 +988,17 @@ namespace TraceMonitor
                             buffer = buffer + ch;
                         }
                     }
-                    
+
                     prc.WaitForExit();
                 }
-                
+
                 // Remove last 2 items (usually empty or summary)
                 if (routeResults.Count >= 2)
                 {
                     routeResults.RemoveAt(routeResults.Count - 1);
                     routeResults.RemoveAt(routeResults.Count - 1);
                 }
-                
+
                 e.Result = routeResults;
             }
             catch (Exception ex)
@@ -1011,7 +1021,7 @@ namespace TraceMonitor
                 // Add route hop to list
                 listBox1.Items.Add(e.UserState.ToString());
                 listBox1.Update();
-                
+
                 // Update progress in log
                 listBox4.Items.Insert(0, Timestamp() + " Hop " + e.ProgressPercentage + ": " + e.UserState.ToString());
                 listBox4.Update();
@@ -1024,7 +1034,7 @@ namespace TraceMonitor
             textBox1.Enabled = true;
             button1.Enabled = true;
             button1.Text = "Start manual.";
-            
+
             if (e.Cancelled)
             {
                 listBox4.Items.Insert(0, Timestamp() + " Tracert cancelled by user");
@@ -1040,24 +1050,24 @@ namespace TraceMonitor
                 List<string> results = (List<string>)e.Result;
                 listBox4.Items.Insert(0, Timestamp() + " End tracert to:" + textBox1.Text + " (" + results.Count + " hops)");
                 listBox4.Update();
-                
+
                 // Check for duplicates only if we have results
                 if (listBox1.Items.Count > 0)
                 {
                     check_doublecate();
                 }
-                
+
                 // Start check trace
                 listBox4.Items.Insert(0, Timestamp() + " Start check tracert to:" + textBox1.Text);
                 listBox4.Update();
-                
+
                 // Run check_trace in UI thread (it's fast)
                 check_trace();
-                
+
                 listBox4.Items.Insert(0, Timestamp() + " End check tracert to:" + textBox1.Text);
                 listBox4.Update();
             }
-            
+
             // Restart timer if auto mode is enabled
             if (auto_check)
             {
@@ -1071,12 +1081,12 @@ namespace TraceMonitor
             {
                 string title = "Route Change Detected";
                 string message = string.Format("Route changed for {0}\n\n{1}", host, changes);
-                
+
                 notifyIcon1.BalloonTipTitle = title;
                 notifyIcon1.BalloonTipText = message;
                 notifyIcon1.BalloonTipIcon = ToolTipIcon.Warning;
                 notifyIcon1.ShowBalloonTip(5000); // Show for 5 seconds
-                
+
                 listBox4.Items.Insert(0, Timestamp() + " Popup notification shown for route change");
                 listBox4.Update();
             }
@@ -1089,18 +1099,18 @@ namespace TraceMonitor
                 // Get version information from assembly
                 Assembly assembly = Assembly.GetExecutingAssembly();
                 Version version = assembly.GetName().Version;
-                
+
                 // Format version string for About tab
-                string versionString = string.Format("(ver {0}.{1} Build {2})", 
+                string versionString = string.Format("(ver {0}.{1} Build {2})",
                     version.Major, version.Minor, version.Build);
-                
+
                 // Format title string for window title
-                string titleString = string.Format("Trace Monitor v{0}.{1}.{2}", 
+                string titleString = string.Format("Trace Monitor v{0}.{1}.{2}",
                     version.Major, version.Minor, version.Build);
-                
+
                 // Update the label in About tab
                 label13.Text = versionString;
-                
+
                 // Update the window title
                 this.Text = titleString;
             }
@@ -1120,14 +1130,14 @@ namespace TraceMonitor
             {
                 // Apply modern styling to the main form
                 ModernUI.ApplyModernFormStyle(this);
-                
+
                 // Apply modern styling to all controls
                 ModernUI.ApplyModernStyleToContainer(this);
-                
+
                 // Log successful styling application
                 listBox4.Items.Insert(0, Timestamp() + " Modern UI styling applied (original layout + Windows 10/11 compatibility)");
                 listBox4.Update();
-                
+
                 // Log element visibility check
                 LogElementVisibility();
             }
@@ -1145,37 +1155,37 @@ namespace TraceMonitor
             {
                 // Check if all main elements are visible and properly sized
                 string visibilityReport = "Element visibility check: ";
-                
+
                 if (textBox1 != null && textBox1.Visible)
                     visibilityReport += "TextBox1:OK ";
                 else
                     visibilityReport += "TextBox1:MISSING ";
-                
+
                 if (listBox1 != null && listBox1.Visible)
                     visibilityReport += "ListBox1:OK ";
                 else
                     visibilityReport += "ListBox1:MISSING ";
-                
+
                 if (listBox2 != null && listBox2.Visible)
                     visibilityReport += "ListBox2:OK ";
                 else
                     visibilityReport += "ListBox2:MISSING ";
-                
+
                 if (listBox4 != null && listBox4.Visible)
                     visibilityReport += "ListBox4:OK ";
                 else
                     visibilityReport += "ListBox4:MISSING ";
-                
+
                 if (button1 != null && button1.Visible)
                     visibilityReport += "Button1:OK ";
                 else
                     visibilityReport += "Button1:MISSING ";
-                
+
                 if (button2 != null && button2.Visible)
                     visibilityReport += "Button2:OK ";
                 else
                     visibilityReport += "Button2:MISSING ";
-                
+
                 listBox4.Items.Insert(0, Timestamp() + " " + visibilityReport);
                 listBox4.Update();
             }
